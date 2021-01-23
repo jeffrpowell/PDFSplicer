@@ -22,7 +22,9 @@ public class Splicer extends SwingWorker<Path, Void>{
 		//Prepare directory
 		String splitDirectoryName = pathToSplit.getFileName().toString().replace(".pdf", "");
 		Path splitDirectory = Paths.get(pathToSplit.getParent().toString(), splitDirectoryName);
-		Files.createDirectory(splitDirectory);
+        if (!Files.exists(splitDirectory)) {
+            Files.createDirectory(splitDirectory);
+        }
 		//Split pdfs
 		try (PDDocument document = PDDocument.load(Files.readAllBytes(pathToSplit))) {
 			Splitter splitter = new Splitter();
