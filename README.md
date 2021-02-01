@@ -15,8 +15,10 @@ java -jar <path/to/PDFSplicer-version.jar>
 
 ### Splitting apart PDF pages
 
-* Click the `Select File to Fplit Fpart` button, select your file, then click the large `Split File` button. 
-  * The program will create a new folder in the same location as the file with the file's same name, and the separate pages will be saved to this new folder.
+* Click the `Select File to Split Apart` button, select your file
+* If you have a standard 1-page-per-PDF-page document, then click the `Split File` button. 
+* If you have a booklet PDF, where each PDF has two pages separated by a vertical line in the center, click the `Split Booklet File` button.
+* For both buttons, the program will create a new folder in the same location as the file with the file's same name, and the separate pages will be saved to this new folder.
 
 ### Joining PDF files together
 * Click the `Add Files to Join` button and select which files you would like to join together. 
