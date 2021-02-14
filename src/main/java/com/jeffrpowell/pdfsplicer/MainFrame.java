@@ -68,8 +68,7 @@ public class MainFrame extends javax.swing.JFrame
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         jPanel2 = new javax.swing.JPanel();
@@ -82,6 +81,7 @@ public class MainFrame extends javax.swing.JFrame
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
         jPanel7 = new javax.swing.JPanel();
         btnSplice = new javax.swing.JButton();
+        btnSpliceBooklet = new javax.swing.JButton();
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         jSeparator1 = new javax.swing.JSeparator();
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
@@ -117,10 +117,8 @@ public class MainFrame extends javax.swing.JFrame
         jPanel2.add(jPanel5);
 
         btnSpliceSelection.setText("Select File to Split Apart");
-        btnSpliceSelection.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnSpliceSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSpliceSelectionActionPerformed(evt);
             }
         });
@@ -133,18 +131,26 @@ public class MainFrame extends javax.swing.JFrame
         jPanel2.add(lblSpliceLocation);
         jPanel2.add(filler8);
 
-        jPanel7.setLayout(new java.awt.BorderLayout());
+        jPanel7.setLayout(new java.awt.GridLayout(1, 2));
 
         btnSplice.setText("Split File");
         btnSplice.setEnabled(false);
-        btnSplice.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnSplice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSpliceActionPerformed(evt);
             }
         });
-        jPanel7.add(btnSplice, java.awt.BorderLayout.SOUTH);
+        jPanel7.add(btnSplice);
+
+        btnSpliceBooklet.setText("Split Booklet File");
+        btnSpliceBooklet.setToolTipText("If your PDF pages consist of two pages split with a vertical line in the center, choose this button.");
+        btnSpliceBooklet.setEnabled(false);
+        btnSpliceBooklet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSpliceBookletActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnSpliceBooklet);
 
         jPanel2.add(jPanel7);
 
@@ -165,20 +171,16 @@ public class MainFrame extends javax.swing.JFrame
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.X_AXIS));
 
         btnJoinSelection.setText("Add Files to Join");
-        btnJoinSelection.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnJoinSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJoinSelectionActionPerformed(evt);
             }
         });
         jPanel4.add(btnJoinSelection);
 
         btnJoinRemoval.setText("Remove Selected Files");
-        btnJoinRemoval.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnJoinRemoval.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJoinRemovalActionPerformed(evt);
             }
         });
@@ -196,10 +198,8 @@ public class MainFrame extends javax.swing.JFrame
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         btnJoinPathSelection.setText("Name of New File");
-        btnJoinPathSelection.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnJoinPathSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJoinPathSelectionActionPerformed(evt);
             }
         });
@@ -215,10 +215,8 @@ public class MainFrame extends javax.swing.JFrame
 
         btnJoin.setText("Join Files");
         btnJoin.setEnabled(false);
-        btnJoin.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnJoin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJoinActionPerformed(evt);
             }
         });
@@ -250,6 +248,7 @@ public class MainFrame extends javax.swing.JFrame
 			splitFile = fileChooser.getSelectedFile().toPath();
 			lblSpliceLocation.setText(splitFile.toString());
 			btnSplice.setEnabled(true);
+            btnSpliceBooklet.setEnabled(true);
 		}
     }//GEN-LAST:event_btnSpliceSelectionActionPerformed
 
@@ -268,13 +267,14 @@ public class MainFrame extends javax.swing.JFrame
 		Splicer splitter = new Splicer(splitFile);
 		setSelectionButtonsEnabled(false);
 		btnSplice.setEnabled(false);
+        btnSpliceBooklet.setEnabled(false);
 		splitter.execute();
 		try
 		{
 			splitter.get();
 		} catch (InterruptedException | ExecutionException ex)
 		{
-
+            System.err.println(ex);
 		}
 		finally {
 			splitFile = null;
@@ -294,7 +294,7 @@ public class MainFrame extends javax.swing.JFrame
 			joiner.get();
 		} catch (InterruptedException | ExecutionException ex)
 		{
-
+            System.err.println(ex);
 		}
 		finally {
 			joinFile = null;
@@ -321,6 +321,26 @@ public class MainFrame extends javax.swing.JFrame
 			btnJoin.setEnabled(!joinFiles.isEmpty());
 		}
     }//GEN-LAST:event_btnJoinPathSelectionActionPerformed
+
+    private void btnSpliceBookletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpliceBookletActionPerformed
+        BookletSplicer splitter = new BookletSplicer(splitFile);
+		setSelectionButtonsEnabled(false);
+		btnSplice.setEnabled(false);
+        btnSpliceBooklet.setEnabled(false);
+		splitter.execute();
+		try
+		{
+			splitter.get();
+		} catch (InterruptedException | ExecutionException ex)
+		{
+            System.err.println(ex);
+		}
+		finally {
+			splitFile = null;
+			lblSpliceLocation.setText("");
+			setSelectionButtonsEnabled(true);
+		}
+    }//GEN-LAST:event_btnSpliceBookletActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -390,6 +410,7 @@ public class MainFrame extends javax.swing.JFrame
     private javax.swing.JButton btnJoinRemoval;
     private javax.swing.JButton btnJoinSelection;
     private javax.swing.JButton btnSplice;
+    private javax.swing.JButton btnSpliceBooklet;
     private javax.swing.JButton btnSpliceSelection;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;

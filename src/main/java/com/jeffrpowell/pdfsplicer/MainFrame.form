@@ -121,7 +121,10 @@
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel7">
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+            <Property name="columns" type="int" value="2"/>
+            <Property name="rows" type="int" value="1"/>
+          </Layout>
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnSplice">
               <Properties>
@@ -131,11 +134,16 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSpliceActionPerformed"/>
               </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                  <BorderConstraints direction="South"/>
-                </Constraint>
-              </Constraints>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnSpliceBooklet">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Split Booklet File"/>
+                <Property name="toolTipText" type="java.lang.String" value="If your PDF pages consist of two pages split with a vertical line in the center, choose this button."/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSpliceBookletActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
