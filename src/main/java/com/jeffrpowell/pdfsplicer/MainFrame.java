@@ -21,6 +21,7 @@ public class MainFrame extends javax.swing.JFrame
 	private final List<Path> joinFiles;
 	private Path splitFile;
 	private Path joinFile;
+	private Path extractFile;
 	
 	/**
 	 * Creates new form MainFrame
@@ -59,6 +60,7 @@ public class MainFrame extends javax.swing.JFrame
 		btnJoinSelection.setEnabled(enabled);
 		btnJoinRemoval.setEnabled(enabled);
 		btnSpliceSelection.setEnabled(enabled);
+        btnExtractSelection.setEnabled(enabled);
 	}
 
 	/**
@@ -101,6 +103,28 @@ public class MainFrame extends javax.swing.JFrame
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         jPanel8 = new javax.swing.JPanel();
         btnJoin = new javax.swing.JButton();
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        jSeparator2 = new javax.swing.JSeparator();
+        filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        btnExtractSelection = new javax.swing.JButton();
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        lblExtractLocation = new javax.swing.JLabel();
+        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        jPanel13 = new javax.swing.JPanel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
+        jLabel4 = new javax.swing.JLabel();
+        txtExtractFromPage = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtExtractToPage = new javax.swing.JTextField();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
+        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        jPanel14 = new javax.swing.JPanel();
+        btnExtract = new javax.swing.JButton();
+        filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 400));
@@ -225,6 +249,64 @@ public class MainFrame extends javax.swing.JFrame
         jPanel1.add(jPanel8);
 
         getContentPane().add(jPanel1);
+        getContentPane().add(filler12);
+        getContentPane().add(jSeparator2);
+        getContentPane().add(filler15);
+
+        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Extract Partial PDF");
+        jPanel11.add(jLabel3);
+
+        jPanel10.add(jPanel11);
+
+        btnExtractSelection.setText("Select File to Extract From");
+        btnExtractSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExtractSelectionActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnExtractSelection);
+
+        jPanel10.add(jPanel12);
+        jPanel10.add(filler13);
+
+        lblExtractLocation.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel10.add(lblExtractLocation);
+        jPanel10.add(filler14);
+
+        jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.X_AXIS));
+        jPanel13.add(filler4);
+
+        jLabel4.setText("From page");
+        jPanel13.add(jLabel4);
+        jPanel13.add(txtExtractFromPage);
+
+        jLabel5.setText(" to page ");
+        jPanel13.add(jLabel5);
+        jPanel13.add(txtExtractToPage);
+        jPanel13.add(filler5);
+
+        jPanel10.add(jPanel13);
+        jPanel10.add(filler17);
+
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        btnExtract.setText("Extract Partial PDF");
+        btnExtract.setEnabled(false);
+        btnExtract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExtractActionPerformed(evt);
+            }
+        });
+        jPanel14.add(btnExtract, java.awt.BorderLayout.SOUTH);
+
+        jPanel10.add(jPanel14);
+
+        getContentPane().add(jPanel10);
+        getContentPane().add(filler16);
 
         pack();
         setLocationRelativeTo(null);
@@ -342,6 +424,42 @@ public class MainFrame extends javax.swing.JFrame
 		}
     }//GEN-LAST:event_btnSpliceBookletActionPerformed
 
+    private void btnExtractSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtractSelectionActionPerformed
+        fileChooser.setMultiSelectionEnabled(false);
+		int result = fileChooser.showDialog(this, "Select");
+		if (result == JFileChooser.APPROVE_OPTION)
+		{
+			extractFile = fileChooser.getSelectedFile().toPath();
+			lblExtractLocation.setText(extractFile.toString());
+            txtExtractFromPage.setText("1");
+            int pages = Extractor.getPages(extractFile);
+            if (pages == -1) {
+                pages = 1;
+            }
+            txtExtractToPage.setText(Integer.toString(pages));
+			btnExtract.setEnabled(true);
+		}
+    }//GEN-LAST:event_btnExtractSelectionActionPerformed
+
+    private void btnExtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtractActionPerformed
+		Extractor extractor = new Extractor(extractFile, Integer.parseInt(txtExtractFromPage.getText()), Integer.parseInt(txtExtractToPage.getText()));
+		setSelectionButtonsEnabled(false);
+		btnExtract.setEnabled(false);
+        extractor.execute();
+		try
+		{
+			extractor.get();
+		} catch (InterruptedException | ExecutionException ex)
+		{
+            System.err.println(ex);
+		}
+		finally {
+			extractFile = null;
+			lblExtractLocation.setText("");
+			setSelectionButtonsEnabled(true);
+		}
+    }//GEN-LAST:event_btnExtractActionPerformed
+
 	/**
 	 * @param args the command line arguments
 	 */
@@ -405,6 +523,8 @@ public class MainFrame extends javax.swing.JFrame
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExtract;
+    private javax.swing.JButton btnExtractSelection;
     private javax.swing.JButton btnJoin;
     private javax.swing.JButton btnJoinPathSelection;
     private javax.swing.JButton btnJoinRemoval;
@@ -415,14 +535,30 @@ public class MainFrame extends javax.swing.JFrame
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler12;
+    private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler14;
+    private javax.swing.Box.Filler filler15;
+    private javax.swing.Box.Filler filler16;
+    private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -433,9 +569,13 @@ public class MainFrame extends javax.swing.JFrame
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    public javax.swing.JLabel lblExtractLocation;
     public javax.swing.JLabel lblJoinLocation;
     public javax.swing.JLabel lblSpliceLocation;
     public javax.swing.JList<String> listJoinFiles;
+    public javax.swing.JTextField txtExtractFromPage;
+    public javax.swing.JTextField txtExtractToPage;
     // End of variables declaration//GEN-END:variables
 
 }
