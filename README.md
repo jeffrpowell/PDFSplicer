@@ -26,5 +26,11 @@ java -jar <path/to/PDFSplicer-version.jar>
 * Click on the `Name of New File` button, then type in the name of your new file in the file dialog.
 * When satisfied, click the `Join Files` button. The new file will be saved in the location you specified in the `Name of New File` dialog.
 
+### Extracting a partial PDF
+
+* Click the `Select File to Extract From` button, select your file
+* The program automatically populates the maximum page range in the text boxes below. Select what page range you would like to extract into a separate PDF file.
+* Click the `Extract Partial PDF` button. The program will create a new PDF in the same location with the same name + the page range appended to the file name.
+
 ## Questions/Bugs
 * Feel free to make an [issue](https://github.com/jeffrpowell/PDFSplicer/issues), or (even butter) a [pull request](https://github.com/jeffrpowell/PDFSplicer/pulls).
