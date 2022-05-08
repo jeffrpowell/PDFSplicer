@@ -2,7 +2,6 @@ package com.jeffrpowell.pdfsplicer;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import javax.swing.SwingWorker;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -15,7 +14,6 @@ public class Extractor extends SwingWorker<Path, Void>{
     private final int endPage;
     
     public static int getPages(Path pdf) {
-        int _pages = -1;
         try (PDDocument document = PDDocument.load(Files.readAllBytes(pdf))) {
             return document.getNumberOfPages();
         }
@@ -44,6 +42,13 @@ public class Extractor extends SwingWorker<Path, Void>{
 	protected Path doInBackground() throws Exception
 	{
 		try (PDDocument document = PDDocument.load(Files.readAllBytes(pathToSplit))) {
+            document.setAllSecurityToBeRemoved(true);
+            if (startPage == endPage) {
+                try (PDDocument newDoc = new PDDocument()) {
+                    newDoc.addPage(document.getPage(startPage));
+                    newDoc.save(savePath.toFile());
+                }
+            }
             for (int page = pages - 1; page >= 0; page--) {
                 if (page > endPage || page < startPage) {
                     document.removePage(page);

@@ -26,9 +26,7 @@ public class BookletSplicer extends SwingWorker<Path, Void> {
         }
         //Split pdfs
         try (PDDocument document = PDDocument.load(Files.readAllBytes(pathToSplit))) {
-            if (document.isEncrypted()) {
-                throw new UnsupportedOperationException("Error: Encrypted documents are not supported!");
-            }
+            document.setAllSecurityToBeRemoved(true);
             int j = 0;
             int noOfPages = document.getNumberOfPages();
             for (int i = 0; i < noOfPages; i++) {
