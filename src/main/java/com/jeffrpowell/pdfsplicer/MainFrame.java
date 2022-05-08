@@ -454,8 +454,7 @@ public class MainFrame extends javax.swing.JFrame
             System.err.println(ex);
 		}
 		finally {
-			extractFile = null;
-			lblExtractLocation.setText("");
+            btnExtract.setEnabled(true);
 			setSelectionButtonsEnabled(true);
 		}
     }//GEN-LAST:event_btnExtractActionPerformed
